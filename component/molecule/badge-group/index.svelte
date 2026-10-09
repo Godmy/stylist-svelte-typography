@@ -38,7 +38,7 @@
 				badge.onClick &&
 				badge.onClick()}
 		>
-			{() => badge.label}
+			{badge.label}
 		</Badge>
 	{/each}
 
