@@ -2,3 +2,4 @@
 export type { SlotLink } from './link';
 export type { SlotRichText } from './rich-text';
 export type { SlotText } from './text';
+export type { SlotTypography } from './typography';

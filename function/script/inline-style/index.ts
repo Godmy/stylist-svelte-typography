@@ -1,11 +1,11 @@
-import { TOKEN_FONT_FAMILY } from '$stylist/theme/const/object/font-family';
-import { TOKEN_FONT_SIZE } from '$stylist/theme/const/object/font-size';
-import { TOKEN_FONT_WEIGHT } from '$stylist/theme/const/object/font-weight';
-import { TOKEN_LETTER_SPACING } from '$stylist/theme/const/object/letter-spacing';
-import { TOKEN_LINE_HEIGHT } from '$stylist/theme/const/object/line-height';
-import type { SlotTypography } from '$stylist/theme/interface/slot/typography';
-import type { TokenFontSize } from '$stylist/theme/type/alias/font-size';
-import type { TokenColorTone } from '$stylist/theme/type/alias/color-tone';
+import { TOKEN_FONT_FAMILY } from '$stylist/design-token/const/object/font-family';
+import { TOKEN_FONT_SIZE } from '$stylist/design-token/const/object/font-size';
+import { TOKEN_FONT_WEIGHT } from '$stylist/design-token/const/object/font-weight';
+import { TOKEN_LETTER_SPACING } from '$stylist/design-token/const/object/letter-spacing';
+import { TOKEN_LINE_HEIGHT } from '$stylist/design-token/const/object/line-height';
+import type { SlotTypography } from '$stylist/typography/interface/slot/typography';
+import type { TokenFontSize } from '$stylist/design-token/type/alias/font-size';
+import type { TokenColorTone } from '$stylist/design-token/type/alias/color-tone';
 
 export function resolveTypographyInlineStyle(
 	styleValue: unknown,

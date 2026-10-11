@@ -14,5 +14,6 @@ export type {
 export type {
 	SlotLink,
 	SlotRichText,
-	SlotText
+	SlotText,
+	SlotTypography
 } from './slot';

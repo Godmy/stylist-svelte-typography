@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Story from '$stylist/theme/component/molecule/story/index.svelte';
 	import type { SlotStory } from '$stylist/theme/interface/slot/story';
-	import type { TokenFontSize } from '$stylist/theme/type/alias/font-size';
-	import { TOKEN_FONT_SIZE } from '$stylist/theme/const/object/font-size';
-	import { TOKEN_COLOR_TONE } from '$stylist/theme/const/array/color-tone';
+	import type { TokenFontSize } from '$stylist/design-token/type/alias/font-size';
+	import { TOKEN_FONT_SIZE } from '$stylist/design-token/const/object/font-size';
+	import { TOKEN_COLOR_TONE } from '$stylist/design-token/const/array/color-tone';
 	import Link from './index.svelte';
 
 	const toneOptions = [...TOKEN_COLOR_TONE];

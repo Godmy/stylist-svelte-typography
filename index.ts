@@ -12,6 +12,7 @@ export {
 	RichText,
 	Text
 } from './component';
+export { TYPOGRAPHY_PRESET } from './const';
 export {
 	createRichTextSegments,
 	normalizeText,
@@ -31,5 +32,6 @@ export type {
 	RecipeText,
 	SlotLink,
 	SlotRichText,
-	SlotText
+	SlotText,
+	SlotTypography
 } from './interface';
