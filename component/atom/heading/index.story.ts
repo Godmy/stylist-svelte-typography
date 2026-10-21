@@ -1,15 +1,19 @@
-import type { ContractStory } from '$stylist/html/interface/contract/story';
+import Heading from './index.svelte';
 import type { RecipeHeading } from '$stylist/typography/interface/recipe/heading';
+import type { ContractStory } from '$stylist/html/interface/contract/story';
 import { TOKEN_COLOR_TONE } from '$stylist/design-token/const/array/color-tone';
 import { TOKEN_FONT_SIZE } from '$stylist/design-token/const/object/font-size';
 import { TOKEN_FONT_WEIGHT } from '$stylist/design-token/const/object/font-weight';
 import { TOKEN_FONT_FAMILY } from '$stylist/design-token/const/object/font-family';
 import { TOKEN_LINE_HEIGHT } from '$stylist/design-token/const/object/line-height';
 import { TOKEN_LETTER_SPACING } from '$stylist/design-token/const/object/letter-spacing';
-import Heading from './index.svelte';
 
+/** Semantic document heading. */
 export default {
 	component: Heading,
+	title: 'Heading',
+	description:
+		'Semantic document headings with token-driven scale, alignment, spacing, and accessibility control.',
 	args: {
 		text: 'Typography that reads like a system, not a collection of tags.',
 		level: 2,
@@ -25,27 +29,71 @@ export default {
 		disabled: false
 	},
 	controls: {
-		text: { type: 'text', label: 'Text' },
-		level: { type: 'select', label: 'Level', options: [1, 2, 3, 4, 5, 6] },
-		tone: { type: 'select', label: 'Tone', options: TOKEN_COLOR_TONE },
-		fontSize: { type: 'select', label: 'Font size', options: Object.keys(TOKEN_FONT_SIZE) },
-		fontWeight: { type: 'select', label: 'Font weight', options: Object.keys(TOKEN_FONT_WEIGHT) },
-		fontFamily: { type: 'select', label: 'Font family', options: Object.keys(TOKEN_FONT_FAMILY) },
-		lineHeight: { type: 'select', label: 'Line height', options: Object.keys(TOKEN_LINE_HEIGHT) },
+		text: { type: 'text', label: 'Text', description: 'Displayed heading copy.' },
+		level: {
+			type: 'select',
+			label: 'Level',
+			description: 'Semantic heading rank from h1 to h6.',
+			options: [1, 2, 3, 4, 5, 6]
+		},
+		tone: {
+			type: 'select',
+			label: 'Tone',
+			description: 'Semantic heading color.',
+			options: TOKEN_COLOR_TONE
+		},
+		fontSize: {
+			type: 'select',
+			label: 'Font Size',
+			description: 'Override the default heading scale.',
+			options: Object.keys(TOKEN_FONT_SIZE)
+		},
+		fontWeight: {
+			type: 'select',
+			label: 'Font Weight',
+			description: 'Visual weight token for the heading.',
+			options: Object.keys(TOKEN_FONT_WEIGHT)
+		},
+		fontFamily: {
+			type: 'select',
+			label: 'Font Family',
+			description: 'Family token applied to the heading.',
+			options: Object.keys(TOKEN_FONT_FAMILY)
+		},
+		lineHeight: {
+			type: 'select',
+			label: 'Line Height',
+			description: 'Useful for multi-line headlines.',
+			options: Object.keys(TOKEN_LINE_HEIGHT)
+		},
 		letterSpacing: {
 			type: 'select',
-			label: 'Letter spacing',
+			label: 'Letter Spacing',
+			description: 'Tracking control for display headings.',
 			options: Object.keys(TOKEN_LETTER_SPACING)
 		},
 		textTransform: {
 			type: 'select',
 			label: 'Transform',
+			description: 'Case transformation for the heading.',
 			options: ['none', 'uppercase', 'lowercase', 'capitalize']
 		},
-		textAlign: { type: 'select', label: 'Align', options: ['left', 'center', 'right', 'justify'] },
-		lineClamp: { type: 'range', label: 'Line clamp (0 disables)', min: 0, max: 4, step: 1 },
-		disabled: { type: 'boolean', label: 'Disabled' },
-		ariaLabel: { type: 'text', label: 'Aria label' }
+		textAlign: {
+			type: 'select',
+			label: 'Align',
+			description: 'Horizontal alignment in the preview surface.',
+			options: ['left', 'center', 'right', 'justify']
+		},
+		lineClamp: {
+			type: 'range',
+			label: 'Line Clamp',
+			description: 'Restrict the number of heading lines. `0` disables it.',
+			min: 0,
+			max: 4,
+			step: 1
+		},
+		disabled: { type: 'boolean', label: 'Disabled', description: 'Muted heading appearance.' },
+		ariaLabel: { type: 'text', label: 'Aria Label', description: 'Optional accessibility label.' }
 	},
 	presets: {
 		...Object.fromEntries(
@@ -100,7 +148,18 @@ export default {
 			lineClamp: 2
 		},
 		'Centered serif': { fontFamily: 'serif', textAlign: 'center', letterSpacing: 'wide' },
-		Disabled: { disabled: true, tone: 'danger' }
+		Disabled: { disabled: true, tone: 'danger' },
+		Display: { level: 1, fontSize: '12', fontWeight: 'black', letterSpacing: 'narrow' },
+		Serif: { fontFamily: 'serif', fontWeight: 'semibold', fontSize: '8' },
+		Eyebrow: {
+			level: 6,
+			text: 'Section label',
+			fontSize: '3',
+			fontWeight: 'semibold',
+			textTransform: 'uppercase',
+			letterSpacing: 'expanded',
+			tone: 'tertiary'
+		}
 	},
 	layout: 'padded'
 } satisfies ContractStory<RecipeHeading>;
