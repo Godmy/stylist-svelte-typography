@@ -1,4 +1,4 @@
-import Text from './index.svelte';
+import Text from '$stylist/typography/component/atom/text/index.svelte';
 import type { RecipeText } from '$stylist/typography/interface/recipe/text';
 import type { ContractStory } from '$stylist/html/interface/contract/story';
 import { TOKEN_COLOR_TONE } from '$stylist/design-token/const/array/color-tone';

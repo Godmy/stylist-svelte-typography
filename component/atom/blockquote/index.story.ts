@@ -1,4 +1,4 @@
-import Blockquote from './index.svelte';
+import Blockquote from '$stylist/typography/component/atom/blockquote/index.svelte';
 import type { RecipeBlockquote } from '$stylist/typography/interface/recipe/blockquote';
 import type { ContractStory } from '$stylist/html/interface/contract/story';
 

@@ -1,4 +1,4 @@
-import Badge from './index.svelte';
+import Badge from '$stylist/typography/component/atom/badge/index.svelte';
 import type { RecipeBadge } from '$stylist/typography/interface/recipe/badge';
 import type { ContractStory } from '$stylist/html/interface/contract/story';
 import { TOKEN_COLOR_TONE } from '$stylist/design-token/const/array/color-tone';

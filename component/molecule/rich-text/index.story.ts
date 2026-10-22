@@ -1,4 +1,4 @@
-import RichText from './index.svelte';
+import RichText from '$stylist/typography/component/molecule/rich-text/index.svelte';
 import type { RecipeRichText } from '$stylist/typography/interface/recipe/rich-text';
 import type { ContractStory } from '$stylist/html/interface/contract/story';
 import { TOKEN_COLOR_TONE } from '$stylist/design-token/const/array/color-tone';

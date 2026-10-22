@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { RecipeHeading } from '$stylist/typography/interface/recipe/heading';
-	import createHeadingState from './state.svelte';
+	import createHeadingState from '$stylist/typography/component/atom/heading/state.svelte';
 
 	let props: RecipeHeading & HTMLAttributes<HTMLHeadingElement> = $props();
 	const state = createHeadingState(() => props);

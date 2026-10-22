@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import { createRawSnippet, tick } from 'svelte';
-import story from '../../../component/atom/heading/index.story';
-import Heading from '../../../component/atom/heading/index.svelte';
-import type { RecipeHeading } from '../../../interface/recipe/heading';
+import story from '$stylist/typography/component/atom/heading/index.story';
+import Heading from '$stylist/typography/component/atom/heading/index.svelte';
+import type { RecipeHeading } from '$stylist/typography/interface/recipe/heading';
 import StoryCanvas from '$stylist/domain/component/molecule/story-canvas/index.svelte';
 import StoryControls from '$stylist/domain/component/molecule/story-controls/index.svelte';
 import HtmlH2 from '$stylist/html/component/atom/h2/index.svelte';

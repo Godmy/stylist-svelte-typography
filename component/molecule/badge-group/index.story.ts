@@ -1,4 +1,4 @@
-import BadgeGroup from './index.svelte';
+import BadgeGroup from '$stylist/typography/component/molecule/badge-group/index.svelte';
 import type { RecipeBadgeGroup } from '$stylist/typography/interface/recipe/badge-group';
 import type { ContractStory } from '$stylist/html/interface/contract/story';
 

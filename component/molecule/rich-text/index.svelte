@@ -1,5 +1,5 @@
 <script lang="ts">
-	import createRichTextState from './state.svelte';
+	import createRichTextState from '$stylist/typography/component/molecule/rich-text/state.svelte';
 	import type { RecipeRichText } from '$stylist/typography/interface/recipe/rich-text';
 	import type { SlotRichText } from '$stylist/typography/interface/slot/rich-text';
 

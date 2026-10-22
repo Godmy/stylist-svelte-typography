@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { RecipeLink } from '$stylist/typography/interface/recipe/link';
-	import createLinkState from './state.svelte';
+	import createLinkState from '$stylist/typography/component/atom/link/state.svelte';
 
 	let props: RecipeLink & HTMLAttributes<HTMLAnchorElement> = $props();
 

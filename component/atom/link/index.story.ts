@@ -1,4 +1,4 @@
-import Link from './index.svelte';
+import Link from '$stylist/typography/component/atom/link/index.svelte';
 import type { RecipeLink } from '$stylist/typography/interface/recipe/link';
 import type { ContractStory } from '$stylist/html/interface/contract/story';
 import { TOKEN_COLOR_TONE } from '$stylist/design-token/const/array/color-tone';

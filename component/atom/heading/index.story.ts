@@ -1,4 +1,4 @@
-import Heading from './index.svelte';
+import Heading from '$stylist/typography/component/atom/heading/index.svelte';
 import type { RecipeHeading } from '$stylist/typography/interface/recipe/heading';
 import type { ContractStory } from '$stylist/html/interface/contract/story';
 import { TOKEN_COLOR_TONE } from '$stylist/design-token/const/array/color-tone';
