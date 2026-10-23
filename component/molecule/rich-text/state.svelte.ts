@@ -1,5 +1,6 @@
 import { createRichTextSegments } from '$stylist/typography/function/script/rich-text-segments';
 import { resolveTypographyInlineStyle } from '$stylist/typography/function/script/inline-style';
+import { resolveAriaLabel } from '$stylist/theme/function/resolve/aria-label';
 import type { RecipeRichText } from '$stylist/typography/interface/recipe/rich-text';
 
 export function createRichTextState(getProps: () => RecipeRichText) {
@@ -8,9 +9,14 @@ export function createRichTextState(getProps: () => RecipeRichText) {
 	const html = $derived(props.html ?? '');
 	const marks = $derived(props.marks ?? []);
 	const disabled = $derived(props.disabled ?? false);
-	const block = $derived(props.block ?? Boolean(props.html));
+	// HTML may contain flow content; its wrapper must remain a block container.
+	const block = $derived(Boolean(html) || (props.block ?? false));
 	const wrapperTag = $derived(block ? 'div' : 'span');
-	const segments = $derived(createRichTextSegments(text, marks));
+	const segments = $derived(props.segments ?? createRichTextSegments(text, marks));
+	const attrs = $derived({
+		'aria-label':
+			resolveAriaLabel(props.ariaLabel, props as Record<string, unknown>, '') || undefined
+	});
 	const classes = $derived(
 		[
 			'c-typography-rich-text',
@@ -32,6 +38,7 @@ export function createRichTextState(getProps: () => RecipeRichText) {
 			html: _html,
 			text: _text,
 			marks: _marks,
+			segments: _segments,
 			ariaLabel: _ariaLabel,
 			fontSize: _fontSize,
 			fontWeight: _fontWeight,
@@ -48,6 +55,9 @@ export function createRichTextState(getProps: () => RecipeRichText) {
 	});
 
 	return {
+		get attrs() {
+			return attrs;
+		},
 		get disabled() {
 			return disabled;
 		},

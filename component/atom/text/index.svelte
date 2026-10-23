@@ -6,7 +6,7 @@
 	const state = createTextState(() => props);
 </script>
 
-<span {...state.restProps} class={state.classes} style={state.style}>
+<span {...state.restProps} {...state.attrs} class={state.classes} style={state.style}>
 	{#if state.children}
 		{@render state.children()}
 	{:else if state.text}

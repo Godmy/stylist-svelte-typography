@@ -25,21 +25,30 @@
 
 <div class={state.containerClasses} {...restProps}>
 	{#each state.visibleBadges as badge (badge.id)}
-		<Badge
-			variant={badge.variant}
-			size={badge.size}
-			class={state.badgeClass}
-			onclick={() => !badge.disabled && badge.onClick && badge.onClick()}
-			role="button"
-			tabindex={0}
-			onkeydown={(event: KeyboardEvent) =>
-				(event.key === 'Enter' || event.key === ' ') &&
-				!badge.disabled &&
-				badge.onClick &&
-				badge.onClick()}
-		>
-			{badge.label}
-		</Badge>
+		{#if badge.onClick}
+			<button
+				type="button"
+				class="badge-group__action"
+				disabled={badge.disabled}
+				onclick={badge.onClick}
+			>
+				<Badge
+					variant={badge.variant}
+					size={badge.size}
+					disabled={badge.disabled}
+					class={state.badgeClass}
+					label={badge.label}
+				/>
+			</button>
+		{:else}
+			<Badge
+				variant={badge.variant}
+				size={badge.size}
+				disabled={badge.disabled}
+				class={state.badgeClass}
+				label={badge.label}
+			/>
+		{/if}
 	{/each}
 
 	{#if state.showOverflow && state.overflowCount > 0}
@@ -50,6 +59,23 @@
 </div>
 
 <style>
+	.badge-group__action {
+		appearance: none;
+		padding: 0;
+		border: 0;
+		border-radius: 999px;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		cursor: pointer;
+	}
+	.badge-group__action:focus-visible {
+		outline: var(--focus-width, 2px) solid var(--color-primary-500, Highlight);
+		outline-offset: var(--focus-offset, 2px);
+	}
+	.badge-group__action:disabled {
+		cursor: not-allowed;
+	}
 	.badge-group {
 		display: flex;
 		flex-wrap: wrap;

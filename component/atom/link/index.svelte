@@ -28,6 +28,7 @@
 </script>
 
 <a
+	{...restProps}
 	href={state.href}
 	class={state.classes}
 	target={state.target}
@@ -36,8 +37,15 @@
 	data-underline={state.underline ? 'true' : 'false'}
 	data-disabled={state.disabled ? 'true' : 'false'}
 	aria-disabled={state.disabled ? 'true' : undefined}
-	tabindex={state.disabled ? -1 : undefined}
-	{...restProps}
+	tabindex={state.disabled ? -1 : props.tabindex}
+	onclick={(event) => {
+		if (state.disabled) {
+			event.preventDefault();
+			event.stopPropagation();
+			return;
+		}
+		props.onclick?.call(event.currentTarget, event);
+	}}
 >
 	{#if children}
 		{@render children()}

@@ -6,7 +6,7 @@
 	const state = createParagraphState(() => props);
 </script>
 
-<p {...state.restProps} class={state.classes} style={state.style}>
+<p {...state.restProps} {...state.attrs} class={state.classes} style={state.style}>
 	{#if state.children}
 		{@render state.children()}
 	{:else if state.text}

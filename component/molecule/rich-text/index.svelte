@@ -55,6 +55,7 @@
 <svelte:element
 	this={state.wrapperTag}
 	{...state.restProps}
+	{...state.attrs}
 	class={state.classes}
 	style={state.style}
 >
@@ -66,7 +67,7 @@
 		{#each state.segments as segment (segment.key)}
 			{#if segment.href}
 				<a
-					href={segment.href}
+					href={state.disabled ? undefined : segment.href}
 					target={segment.target}
 					title={segment.title}
 					rel={createSegmentRel(segment)}

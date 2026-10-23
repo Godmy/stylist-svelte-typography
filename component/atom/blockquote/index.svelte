@@ -7,16 +7,9 @@
 
 	const state = createBlockquoteState(() => props);
 	const children = $derived(props.children);
-
-	const restProps = $derived(
-		(() => {
-			const { class: _class, children: _children, ...rest } = props;
-			return rest;
-		})()
-	);
 </script>
 
-<blockquote class={state.classes} cite={state.citeUrl} {...restProps}>
+<blockquote {...state.restProps} class={state.classes} cite={state.citeUrl}>
 	{#if children}
 		{@render children()}
 	{/if}
