@@ -8,19 +8,19 @@ import { TOKEN_LETTER_SPACING } from '$stylist/design-token/const/object/letter-
 export const TYPOGRAPHY_PRESET = {
 	body: {
 		'font-family': `var(--typography-font-family, ${TOKEN_FONT_FAMILY.sans})`,
-		'font-size': `var(--typography-font-size-4, ${TOKEN_FONT_SIZE['4']})`,
-		'font-weight': `var(--typography-font-weight-normal, ${TOKEN_FONT_WEIGHT.normal})`,
-		'line-height': `var(--typography-line-height-normal, ${TOKEN_LINE_HEIGHT.normal})`
+		'font-size': `var(--font-size-4, ${TOKEN_FONT_SIZE['4']})`,
+		'font-weight': `var(--font-weight-normal, ${TOKEN_FONT_WEIGHT.normal})`,
+		'line-height': `var(--line-height-normal, ${TOKEN_LINE_HEIGHT.normal})`
 	},
 	heading: {
-		'font-weight': `var(--typography-font-weight-semibold, ${TOKEN_FONT_WEIGHT.semibold})`,
-		'line-height': `var(--typography-line-height-tight, ${TOKEN_LINE_HEIGHT.tight})`,
-		'letter-spacing': `var(--typography-letter-spacing-narrow, ${TOKEN_LETTER_SPACING.narrow})`
+		'font-weight': `var(--font-weight-semibold, ${TOKEN_FONT_WEIGHT.semibold})`,
+		'line-height': `var(--line-height-tight, ${TOKEN_LINE_HEIGHT.tight})`,
+		'letter-spacing': `var(--letter-spacing-narrow, ${TOKEN_LETTER_SPACING.narrow})`
 	},
 	caption: {
 		'font-size': `var(--font-relative-small, ${TOKEN_FONT_SIZE_RELATIVE.small})`,
-		'font-weight': `var(--typography-font-weight-normal, ${TOKEN_FONT_WEIGHT.normal})`,
-		'line-height': `var(--typography-line-height-normal, ${TOKEN_LINE_HEIGHT.normal})`
+		'font-weight': `var(--font-weight-normal, ${TOKEN_FONT_WEIGHT.normal})`,
+		'line-height': `var(--line-height-normal, ${TOKEN_LINE_HEIGHT.normal})`
 	},
 	code: {
 		'font-family': `var(--font-mono, ${TOKEN_FONT_FAMILY.mono})`,

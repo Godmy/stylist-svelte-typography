@@ -103,7 +103,7 @@
 <style>
 	.c-typography-rich-text {
 		display: inline;
-		font-size: var(--typography-font-size, var(--text-size-md, 1rem));
+		font-size: var(--typography-font-size, var(--font-size-4, 1rem));
 		font-weight: var(--typography-font-weight, 400);
 		font-family: var(--typography-font-family, inherit);
 		line-height: var(--typography-line-height, 1.5);
@@ -271,7 +271,7 @@
 		max-width: 100%;
 		height: auto;
 		margin-block: 1em;
-		border-radius: var(--border-radius-base, 0.375rem);
+		border-radius: var(--radius-1-5, 0.375rem);
 	}
 
 	:global(.c-typography-rich-text__html hr) {

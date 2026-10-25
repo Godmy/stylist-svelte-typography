@@ -18,7 +18,7 @@
 	.c-typography-paragraph {
 		display: block;
 		margin: 0;
-		font-size: var(--typography-font-size, var(--text-size-md, 1rem));
+		font-size: var(--typography-font-size, var(--font-size-4, 1rem));
 		font-weight: var(--typography-font-weight, 400);
 		font-family: var(--typography-font-family, inherit);
 		line-height: var(--typography-line-height, 1.625);

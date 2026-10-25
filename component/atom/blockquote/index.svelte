@@ -49,7 +49,7 @@
 
 	.c-typography-blockquote__footer {
 		margin-top: 0.75rem;
-		font-size: var(--text-size-sm, 0.875rem);
+		font-size: var(--font-size-3-5, 0.875rem);
 		font-style: normal;
 		color: var(--color-text-tertiary, var(--color-text-secondary));
 	}
