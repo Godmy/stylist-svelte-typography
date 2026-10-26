@@ -5,9 +5,15 @@ export function createBadgeState(getProps: () => RecipeBadge) {
 	const variant = $derived(props.variant ?? 'default');
 	const size = $derived(props.size ?? 'md');
 	const className = $derived(typeof props.class === 'string' ? props.class : '');
-	const sizeClass = $derived(`badge--size-${String(size).replaceAll('/', '-')}`);
+	const sizeClass = $derived(`c-typography-badge--size-${String(size).replaceAll('/', '-')}`);
 	const classes = $derived(
-		['badge', `badge--${variant}`, sizeClass, props.disabled ? 'badge--disabled' : '', className]
+		[
+			'c-typography-badge',
+			`c-typography-badge--${variant}`,
+			sizeClass,
+			props.disabled ? 'c-typography-badge--disabled' : '',
+			className
+		]
 			.filter(Boolean)
 			.join(' ')
 	);

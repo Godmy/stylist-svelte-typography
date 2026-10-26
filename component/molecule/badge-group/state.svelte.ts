@@ -9,10 +9,12 @@ export function createBadgeGroupState(getProps: () => RecipeBadgeGroup) {
 	const visibleBadges = $derived(badges.slice(0, maxVisible));
 	const overflowCount = $derived(Math.max(0, badges.length - maxVisible));
 	const containerClasses = $derived(
-		['badge-group', typeof props.class === 'string' ? props.class : ''].filter(Boolean).join(' ')
+		['c-typography-badge-group', typeof props.class === 'string' ? props.class : '']
+			.filter(Boolean)
+			.join(' ')
 	);
 	const overflowClasses = $derived(
-		['badge-group__overflow', props.overflowClass ?? ''].filter(Boolean).join(' ')
+		['c-typography-badge-group__overflow', props.overflowClass ?? ''].filter(Boolean).join(' ')
 	);
 
 	return {

@@ -66,7 +66,9 @@ describe('Heading ContractStory pilot', () => {
 		expect(heading.textContent).toBe('Updated');
 		expect(heading.classList.contains('consumer')).toBe(true);
 		expect(heading.style.marginTop).toBe('7px');
-		expect(heading.style.getPropertyValue('--typography-font-size')).toBe('2rem');
+		expect(heading.style.getPropertyValue('--typography-font-size')).toBe(
+			'var(--font-size-8, 2rem)'
+		);
 		expect(heading.getAttribute('aria-label')).toBe('Label');
 		expect(heading.id).toBe('heading');
 	});
@@ -88,9 +90,9 @@ describe('Heading ContractStory pilot', () => {
 				resolvePreviewVariables({ mode })['--color-text-primary']
 			);
 		}
-		expect(dark.container.querySelector('h2')?.style.getPropertyValue('-webkit-line-clamp')).toBe(
-			'2'
-		);
+		expect(
+			dark.container.querySelector('h2')?.style.getPropertyValue('--typography-line-clamp')
+		).toBe('2');
 		await dark.rerender({
 			story,
 			args: { ...story.args, ...story.presets['Long text'] },
@@ -116,6 +118,6 @@ describe('Heading ContractStory pilot', () => {
 		);
 		expect(
 			typography.container.querySelector('h2')?.style.getPropertyValue('--typography-font-size')
-		).toBe('2rem');
+		).toBe('var(--font-size-8, 2rem)');
 	});
 });

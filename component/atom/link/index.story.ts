@@ -45,11 +45,22 @@ export default {
 			description: 'Anchor browsing context.',
 			options: ['_self', '_blank', '_parent', '_top']
 		},
-		text: { type: 'text', label: 'Link Text', description: 'Visible anchor label.' }
+		text: { type: 'text', label: 'Link Text', description: 'Visible anchor label.' },
+		'aria-current': {
+			type: 'select',
+			label: 'Aria current',
+			description: 'Marks the link as the current item of a set.',
+			options: ['page', 'step', 'location', 'date', 'time', 'true', 'false']
+		}
 	},
 	presets: {
 		Disabled: { disabled: true },
-		'Plain secondary': { tone: 'secondary', underline: false }
+		'Plain secondary': { tone: 'secondary', underline: false },
+		'Inherited size': { fontSize: undefined, text: 'Takes the size of the surrounding text' },
+		Large: { fontSize: '8' },
+		Danger: { tone: 'danger' },
+		'Current page': { 'aria-current': 'page', underline: false },
+		'New tab': { target: '_blank' }
 	},
 	layout: 'centered'
 } satisfies ContractStory<RecipeLink>;

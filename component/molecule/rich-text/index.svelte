@@ -1,15 +1,30 @@
 <script lang="ts">
+	import HtmlDiv from '$stylist/html/component/organism/div/index.svelte';
+	import HtmlSpan from '$stylist/html/component/atom/span/index.svelte';
+	import HtmlMark from '$stylist/html/component/atom/mark/index.svelte';
+	import HtmlCode from '$stylist/html/component/atom/code/index.svelte';
+	import HtmlSub from '$stylist/html/component/atom/sub/index.svelte';
+	import HtmlSup from '$stylist/html/component/atom/sup/index.svelte';
+	import HtmlA from '$stylist/html/component/atom/a/index.svelte';
 	import createRichTextState from '$stylist/typography/component/molecule/rich-text/state.svelte';
 	import type { RecipeRichText } from '$stylist/typography/interface/recipe/rich-text';
 	import type { SlotRichText } from '$stylist/typography/interface/slot/rich-text';
 
+	type Segment = NonNullable<SlotRichText['segments']>[number];
+
 	let props: RecipeRichText = $props();
 	const state = createRichTextState(() => props);
 
-	function createSegmentStyle(
-		segment: NonNullable<SlotRichText['segments']>[number],
-		disabled: boolean
-	): string | undefined {
+	const Wrapper = $derived(state.wrapperTag === 'div' ? HtmlDiv : HtmlSpan);
+	const SEGMENT_TAGS = {
+		span: HtmlSpan,
+		mark: HtmlMark,
+		code: HtmlCode,
+		sub: HtmlSub,
+		sup: HtmlSup
+	};
+
+	function createSegmentStyle(segment: Segment, disabled: boolean): string | undefined {
 		const declarations: string[] = [];
 		const textDecorations: string[] = [];
 
@@ -37,9 +52,7 @@
 		return declarations.length > 0 ? `${declarations.join('; ')};` : undefined;
 	}
 
-	function createSegmentRel(
-		segment: NonNullable<SlotRichText['segments']>[number]
-	): string | undefined {
+	function createSegmentRel(segment: Segment): string | undefined {
 		if (segment.rel) {
 			return segment.rel;
 		}
@@ -52,246 +65,180 @@
 	}
 </script>
 
-<svelte:element
-	this={state.wrapperTag}
-	{...state.restProps}
-	{...state.attrs}
-	class={state.classes}
-	style={state.style}
->
+{#snippet segmentNode(segment: Segment)}
+	{@const Tag = SEGMENT_TAGS[segment.tag]}
+	<Tag
+		class="c-typography-rich-text__segment"
+		data-bold={segment.bold ? 'true' : 'false'}
+		data-italic={segment.italic ? 'true' : 'false'}
+		data-highlight={segment.highlight ? 'true' : 'false'}
+		style={createSegmentStyle(segment, state.disabled)}
+	>
+		{segment.text}
+	</Tag>
+{/snippet}
+
+<Wrapper {...state.restProps} {...state.attrs} class={state.classes} style={state.style}>
 	{#if state.html}
-		<div class="c-typography-rich-text__html">
+		<HtmlDiv class="c-typography-rich-text__html">
 			{@html state.html}
-		</div>
+		</HtmlDiv>
 	{:else}
 		{#each state.segments as segment (segment.key)}
 			{#if segment.href}
-				<a
+				<HtmlA
 					href={state.disabled ? undefined : segment.href}
 					target={segment.target}
 					title={segment.title}
 					rel={createSegmentRel(segment)}
 					class="c-typography-rich-text__link"
 				>
-					<svelte:element
-						this={segment.tag}
-						class="c-typography-rich-text__segment"
-						data-bold={segment.bold ? 'true' : 'false'}
-						data-italic={segment.italic ? 'true' : 'false'}
-						data-highlight={segment.highlight ? 'true' : 'false'}
-						style={createSegmentStyle(segment, state.disabled)}
-					>
-						{segment.text}
-					</svelte:element>
-				</a>
+					{@render segmentNode(segment)}
+				</HtmlA>
 			{:else}
-				<svelte:element
-					this={segment.tag}
-					class="c-typography-rich-text__segment"
-					data-bold={segment.bold ? 'true' : 'false'}
-					data-italic={segment.italic ? 'true' : 'false'}
-					data-highlight={segment.highlight ? 'true' : 'false'}
-					style={createSegmentStyle(segment, state.disabled)}
-				>
-					{segment.text}
-				</svelte:element>
+				{@render segmentNode(segment)}
 			{/if}
 		{/each}
 	{/if}
-</svelte:element>
+</Wrapper>
 
 <style>
-	.c-typography-rich-text {
-		display: inline;
-		font-size: var(--typography-font-size, var(--font-size-4, 1rem));
-		font-weight: var(--typography-font-weight, 400);
-		font-family: var(--typography-font-family, inherit);
-		line-height: var(--typography-line-height, 1.5);
-		letter-spacing: var(--typography-letter-spacing, normal);
-		color: var(--typography-color, var(--color-text-primary));
-		white-space: pre-wrap;
-		word-break: break-word;
-	}
-
-	.c-typography-rich-text--block {
-		display: block;
-	}
-
-	.c-typography-rich-text--disabled {
-		color: var(--color-text-tertiary);
-	}
-
-	.c-typography-rich-text__segment {
-		color: inherit;
-		font-weight: inherit;
-		font-style: normal;
-		font-family: inherit;
-		line-height: inherit;
-		letter-spacing: inherit;
-		text-decoration-color: currentColor;
-	}
-
-	.c-typography-rich-text__segment[data-bold='true'] {
-		font-weight: var(--font-weight-bold, 700);
-	}
-
-	.c-typography-rich-text__segment[data-italic='true'] {
-		font-style: italic;
-	}
-
-	.c-typography-rich-text__segment[data-highlight='true'] {
-		background-color: var(--color-warning-200, rgb(254 240 138 / 0.9));
-		border-radius: 0.2em;
-		padding-inline: 0.05em;
-	}
-
-	.c-typography-rich-text__segment:is(code) {
-		padding-inline: 0.3em;
-		padding-block: 0.12em;
-		border-radius: 0.35rem;
-		background: var(--color-background-secondary);
-		font-family: var(
-			--font-family-mono,
-			ui-monospace,
-			SFMono-Regular,
-			'SF Mono',
-			Consolas,
-			monospace
-		);
-		font-size: 0.92em;
-	}
-
-	.c-typography-rich-text__segment:is(sub),
-	.c-typography-rich-text__segment:is(sup) {
-		font-size: 0.72em;
-		line-height: 0;
-	}
-
-	.c-typography-rich-text__link {
-		color: var(--color-primary-600);
-		text-decoration: none;
-		text-underline-offset: 0.12em;
-		transition: color 140ms ease;
-	}
-
-	.c-typography-rich-text__link:hover {
-		color: var(--color-primary-700);
-	}
-
-	.c-typography-rich-text__link:focus-visible {
-		outline: none;
-		box-shadow: 0 0 0 2px var(--color-primary-500);
-		border-radius: 0.25rem;
-	}
-
-	.c-typography-rich-text--disabled .c-typography-rich-text__link {
-		color: inherit;
-		pointer-events: none;
-	}
-
-	.c-typography-rich-text__html {
-		display: flow-root;
-		color: inherit;
-		font: inherit;
-		line-height: inherit;
-		letter-spacing: inherit;
-	}
-
-	:global(.c-typography-rich-text__html > :first-child) {
-		margin-block-start: 0;
-	}
-
-	:global(.c-typography-rich-text__html > :last-child) {
-		margin-block-end: 0;
-	}
-
-	:global(.c-typography-rich-text__html p) {
-		margin-block: 0.75em;
-	}
-
-	:global(.c-typography-rich-text__html h1),
-	:global(.c-typography-rich-text__html h2),
-	:global(.c-typography-rich-text__html h3) {
-		margin-block: 0.85em 0.35em;
-		color: inherit;
-		font-family: inherit;
-		line-height: 1.2;
-	}
-
-	:global(.c-typography-rich-text__html h1) {
-		font-size: 1.875em;
-		font-weight: var(--font-weight-bold, 700);
-	}
-
-	:global(.c-typography-rich-text__html h2) {
-		font-size: 1.5em;
-		font-weight: var(--font-weight-semibold, 600);
-	}
-
-	:global(.c-typography-rich-text__html h3) {
-		font-size: 1.25em;
-		font-weight: var(--font-weight-semibold, 600);
-	}
-
-	:global(.c-typography-rich-text__html blockquote) {
-		margin-block: 1em;
-		margin-inline: 0;
-		padding-inline-start: 1em;
-		border-inline-start: 0.25rem solid var(--color-border-primary);
-		color: var(--color-text-secondary);
-	}
-
-	:global(.c-typography-rich-text__html ul),
-	:global(.c-typography-rich-text__html ol) {
-		margin-block: 0.75em;
-		padding-inline-start: 1.5em;
-	}
-
-	:global(.c-typography-rich-text__html ul) {
-		list-style: disc;
-	}
-
-	:global(.c-typography-rich-text__html ol) {
-		list-style: decimal;
-	}
-
-	:global(.c-typography-rich-text__html li) {
-		margin-block: 0.25em;
-		padding-inline-start: 0.2em;
-	}
-
-	:global(.c-typography-rich-text__html a) {
-		color: var(--color-primary-600);
-		text-decoration-line: underline;
-		text-underline-offset: 0.12em;
-	}
-
-	:global(.c-typography-rich-text__html img) {
-		display: block;
-		max-width: 100%;
-		height: auto;
-		margin-block: 1em;
-		border-radius: var(--radius-1-5, 0.375rem);
-	}
-
-	:global(.c-typography-rich-text__html hr) {
-		margin-block: 1.25em;
-		border: 0;
-		border-block-start: 1px solid var(--color-border-primary);
-	}
-
-	:global(.c-typography-rich-text__html b),
-	:global(.c-typography-rich-text__html strong) {
-		font-weight: var(--font-weight-bold, 700);
-	}
-
-	:global(.c-typography-rich-text__html i),
-	:global(.c-typography-rich-text__html em) {
-		font-style: italic;
-	}
-
-	:global(.c-typography-rich-text__html u) {
-		text-decoration-line: underline;
-		text-decoration-thickness: 0.08em;
+	@layer html, typography, svg, mathml, layout, theme, localization;
+	@layer typography {
+		:global {
+			/* Wrapper typography comes from the props; segments and editor HTML scale in em. */
+			:where(.c-typography-rich-text) {
+				white-space: pre-wrap;
+				word-break: break-word;
+			}
+			:where(.c-typography-rich-text--block) {
+				display: block;
+			}
+			/* Undefined variables leave each property inherited; props and consumer classes set them. */
+			:where(.c-typography-rich-text) {
+				font-size: var(--typography-font-size);
+				font-weight: var(--typography-font-weight);
+				font-family: var(--typography-font-family);
+				line-height: var(--typography-line-height);
+				letter-spacing: var(--typography-letter-spacing);
+				text-transform: var(--typography-text-transform);
+				text-align: var(--typography-text-align);
+				color: var(--typography-color);
+			}
+			/* The clamp needs a box display, so it switches on only with the lineClamp prop. */
+			:where(.c-typography-rich-text[style*='--typography-line-clamp']) {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: var(--typography-line-clamp);
+				overflow: hidden;
+			}
+			:where(.c-typography-rich-text--disabled) {
+				color: var(--color-text-tertiary);
+			}
+			:where(.c-typography-rich-text__segment) {
+				color: inherit;
+				font-style: normal;
+				text-decoration-color: currentColor;
+			}
+			:where(.c-typography-rich-text__segment[data-bold='true']) {
+				font-weight: var(--font-weight-bold);
+			}
+			:where(.c-typography-rich-text__segment[data-italic='true']) {
+				font-style: italic;
+			}
+			:where(.c-typography-rich-text__segment[data-highlight='true']) {
+				background-color: var(--color-warning-200, Mark);
+				border-radius: 0.2em;
+				padding-inline: 0.05em;
+			}
+			:where(code.c-typography-rich-text__segment) {
+				padding-inline: 0.3em;
+				padding-block: 0.12em;
+				border-radius: 0.35em;
+				background: var(--color-background-secondary);
+			}
+			:where(sub.c-typography-rich-text__segment),
+			:where(sup.c-typography-rich-text__segment) {
+				font-size: 0.72em;
+				line-height: 0;
+			}
+			:where(.c-typography-rich-text__link) {
+				color: var(--color-primary-600);
+				text-decoration: none;
+				text-underline-offset: 0.12em;
+				transition: color var(--duration-140, 140ms) var(--easing-ease, ease);
+			}
+			:where(.c-typography-rich-text__link:hover) {
+				color: var(--color-primary-700);
+			}
+			:where(.c-typography-rich-text--disabled .c-typography-rich-text__link) {
+				color: inherit;
+				pointer-events: none;
+			}
+			:where(.c-typography-rich-text__html) {
+				display: flow-root;
+			}
+			:where(.c-typography-rich-text__html > :first-child) {
+				margin-block-start: 0;
+			}
+			:where(.c-typography-rich-text__html > :last-child) {
+				margin-block-end: 0;
+			}
+			:where(.c-typography-rich-text__html p) {
+				margin-block: 0.75em;
+			}
+			:where(.c-typography-rich-text__html h1),
+			:where(.c-typography-rich-text__html h2),
+			:where(.c-typography-rich-text__html h3) {
+				margin-block: 0.85em 0.35em;
+				color: inherit;
+				line-height: var(--line-height-tight);
+			}
+			:where(.c-typography-rich-text__html h1) {
+				font-size: 1.875em;
+				font-weight: var(--font-weight-bold);
+			}
+			:where(.c-typography-rich-text__html h2) {
+				font-size: 1.5em;
+				font-weight: var(--font-weight-semibold);
+			}
+			:where(.c-typography-rich-text__html h3) {
+				font-size: 1.25em;
+				font-weight: var(--font-weight-semibold);
+			}
+			:where(.c-typography-rich-text__html blockquote) {
+				margin-block: 1em;
+				margin-inline: 0;
+				padding-inline-start: 1em;
+				border-inline-start: 0.25em solid var(--color-border-primary);
+				color: var(--color-text-secondary);
+			}
+			:where(.c-typography-rich-text__html ul, .c-typography-rich-text__html ol) {
+				margin-block: 0.75em;
+				padding-inline-start: 1.5em;
+			}
+			:where(.c-typography-rich-text__html ul) {
+				list-style: disc;
+			}
+			:where(.c-typography-rich-text__html ol) {
+				list-style: decimal;
+			}
+			:where(.c-typography-rich-text__html li) {
+				margin-block: 0.25em;
+				padding-inline-start: 0.2em;
+			}
+			:where(.c-typography-rich-text__html img) {
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin-block: 1em;
+				border-radius: var(--radius-1-5);
+			}
+			:where(.c-typography-rich-text__html hr) {
+				margin-block: 1.25em;
+				border: 0;
+				border-block-start: var(--border-width-thin, 1px) solid var(--color-border-primary);
+			}
+		}
 	}
 </style>

@@ -20,7 +20,6 @@ export default {
 		tone: 'primary',
 		fontSize: '6',
 		fontWeight: 'bold',
-		fontFamily: 'sans',
 		lineHeight: 'tight',
 		letterSpacing: 'normal',
 		textTransform: 'none',
@@ -91,6 +90,11 @@ export default {
 			min: 0,
 			max: 4,
 			step: 1
+		},
+		block: {
+			type: 'boolean',
+			label: 'Block Mode',
+			description: 'Adds the block modifier class for consumers that style it.'
 		},
 		disabled: { type: 'boolean', label: 'Disabled', description: 'Muted heading appearance.' },
 		ariaLabel: { type: 'text', label: 'Aria Label', description: 'Optional accessibility label.' }

@@ -32,11 +32,23 @@ export default {
 			type: 'boolean',
 			label: 'Background',
 			description: 'Surface treatment for emphasized quotes.'
+		},
+		cite: {
+			type: 'text',
+			label: 'Cite (deprecated)',
+			description: 'Legacy source: a URL becomes citeUrl, other text the source label.'
 		}
 	},
 	presets: {
 		'Border only': { sourceLabel: 'Leonardo da Vinci', footerPrefix: 'By ', withBackground: false },
-		'Surface only': { sourceLabel: 'Brian Chesky', footerPrefix: 'By ', withBorder: false }
+		'Surface only': { sourceLabel: 'Brian Chesky', footerPrefix: 'By ', withBorder: false },
+		Plain: { sourceLabel: '', withBorder: false, withBackground: false },
+		'Legacy cite': {
+			sourceLabel: undefined,
+			citeUrl: undefined,
+			footerPrefix: '— ',
+			cite: 'Dieter Rams'
+		}
 	},
 	content: [{ kind: 'text', value: 'Design is the silent ambassador of your brand.' }]
 } satisfies ContractStory<RecipeBlockquote>;

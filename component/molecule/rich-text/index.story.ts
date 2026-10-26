@@ -6,6 +6,7 @@ import { TOKEN_FONT_SIZE } from '$stylist/design-token/const/object/font-size';
 import { TOKEN_FONT_WEIGHT } from '$stylist/design-token/const/object/font-weight';
 import { TOKEN_LINE_HEIGHT } from '$stylist/design-token/const/object/line-height';
 import { TOKEN_LETTER_SPACING } from '$stylist/design-token/const/object/letter-spacing';
+import { TOKEN_FONT_FAMILY } from '$stylist/design-token/const/object/font-family';
 
 /** Display-only rich text renderer with overlapping range modifiers. */
 export default {
@@ -35,7 +36,8 @@ export default {
 		lineHeight: 'normal',
 		letterSpacing: 'normal',
 		disabled: false,
-		block: true
+		block: true,
+		html: ''
 	},
 	controls: {
 		text: { type: 'text', label: 'Text', description: 'Plain text the marks apply to.' },
@@ -78,7 +80,45 @@ export default {
 			type: 'boolean',
 			label: 'Block Mode',
 			description: 'Switch wrapper element between inline and block.'
-		}
+		},
+		marks: {
+			type: 'json',
+			label: 'Marks',
+			description: 'Ranges over the text: bold, italic, colour, highlight, code, sub/sup, links.',
+			example: [{ start: 0, end: 4, bold: true, href: 'https://example.com' }]
+		},
+		html: {
+			type: 'text',
+			label: 'HTML',
+			description: 'Editor HTML rendered instead of text and marks.'
+		},
+		fontFamily: {
+			type: 'select',
+			label: 'Font Family',
+			description: 'Wrapper font family; unset follows the skin.',
+			options: Object.keys(TOKEN_FONT_FAMILY)
+		},
+		textTransform: {
+			type: 'select',
+			label: 'Transform',
+			description: 'Case transformation of the wrapper.',
+			options: ['none', 'uppercase', 'lowercase', 'capitalize']
+		},
+		textAlign: {
+			type: 'select',
+			label: 'Align',
+			description: 'Horizontal alignment in block mode.',
+			options: ['left', 'center', 'right', 'justify']
+		},
+		lineClamp: {
+			type: 'range',
+			label: 'Line Clamp',
+			description: '`0` keeps the full text.',
+			min: 0,
+			max: 6,
+			step: 1
+		},
+		ariaLabel: { type: 'text', label: 'Aria Label', description: 'Optional accessibility label.' }
 	},
 	presets: {
 		Numeric: {
@@ -109,6 +149,11 @@ export default {
 				{ start: 61, end: 69, italic: true }
 			]
 		},
+		Serif: { fontFamily: 'serif', fontSize: '5', lineHeight: 'relaxed' },
+		Centered: { textAlign: 'center' },
+		Clamped: { lineClamp: 1 },
+		Disabled: { disabled: true },
+		Inline: { block: false },
 		'Editor HTML': {
 			text: '',
 			marks: [],

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HtmlSpan from '$stylist/html/component/atom/span/index.svelte';
 	import type { RecipeText } from '$stylist/typography/interface/recipe/text';
 	import createTextState from '$stylist/typography/component/atom/text/state.svelte';
 
@@ -6,30 +7,42 @@
 	const state = createTextState(() => props);
 </script>
 
-<span {...state.restProps} {...state.attrs} class={state.classes} style={state.style}>
+<HtmlSpan {...state.restProps} {...state.attrs} class={state.classes} style={state.style}>
 	{#if state.children}
 		{@render state.children()}
 	{:else if state.text}
 		{state.text}
 	{/if}
-</span>
+</HtmlSpan>
 
 <style>
-	.c-typography-text {
-		display: inline;
-		font-size: var(--typography-font-size, var(--font-size-4, 1rem));
-		font-weight: var(--typography-font-weight, 400);
-		font-family: var(--typography-font-family, inherit);
-		line-height: var(--typography-line-height, 1.5);
-		letter-spacing: var(--typography-letter-spacing, normal);
-		color: var(--typography-color, var(--color-text-primary));
-	}
-
-	.c-typography-text--block {
-		display: block;
-	}
-
-	.c-typography-text--disabled {
-		color: var(--color-text-tertiary);
+	@layer html, typography, svg, mathml, layout, theme, localization;
+	@layer typography {
+		:global {
+			:where(.c-typography-text--block) {
+				display: block;
+			}
+			/* Undefined variables leave each property inherited; props and consumer classes set them. */
+			:where(.c-typography-text) {
+				font-size: var(--typography-font-size);
+				font-weight: var(--typography-font-weight);
+				font-family: var(--typography-font-family);
+				line-height: var(--typography-line-height);
+				letter-spacing: var(--typography-letter-spacing);
+				text-transform: var(--typography-text-transform);
+				text-align: var(--typography-text-align);
+				color: var(--typography-color);
+			}
+			/* The clamp needs a box display, so it switches on only with the lineClamp prop. */
+			:where(.c-typography-text[style*='--typography-line-clamp']) {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: var(--typography-line-clamp);
+				overflow: hidden;
+			}
+			:where(.c-typography-text--disabled) {
+				color: var(--color-text-tertiary);
+			}
+		}
 	}
 </style>

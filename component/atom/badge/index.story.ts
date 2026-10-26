@@ -11,17 +11,35 @@ export default {
 	description: 'Pill-shaped badge for quick status indicators.',
 	args: { label: 'New', variant: 'default', size: 'md', disabled: false },
 	controls: {
-		label: { type: 'text' },
-		variant: { type: 'select', options: TOKEN_COLOR_TONE },
-		// xs … 2xl: the fraction sizes reuse the same paddings.
-		size: { type: 'select', options: TOKEN_SIZE.slice(0, 6) },
-		disabled: { type: 'boolean' }
+		label: { type: 'text', label: 'Label', description: 'Badge text when no children are passed.' },
+		variant: {
+			type: 'select',
+			label: 'Variant',
+			description: 'Colour tone of the badge.',
+			options: TOKEN_COLOR_TONE
+		},
+		size: {
+			type: 'select',
+			label: 'Size',
+			description: 'Font size step; the fraction sizes reuse the xs … 2xl steps.',
+			options: TOKEN_SIZE
+		},
+		disabled: { type: 'boolean', label: 'Disabled', description: 'Dimmed, non-interactive badge.' }
 	},
 	presets: {
-		Ready: { label: 'Ready', variant: 'success' },
-		Review: { label: 'Review', variant: 'warning' },
-		Blocked: { label: 'Blocked', variant: 'danger' },
-		Info: { label: 'Info', variant: 'info' }
+		...Object.fromEntries(
+			TOKEN_COLOR_TONE.map(
+				(variant) =>
+					[`Tone ${variant}`, { variant, label: variant }] satisfies [string, Partial<RecipeBadge>]
+			)
+		),
+		...Object.fromEntries(
+			TOKEN_SIZE.slice(0, 6).map(
+				(size) =>
+					[`Size ${size}`, { size, label: `Size ${size}` }] satisfies [string, Partial<RecipeBadge>]
+			)
+		),
+		Disabled: { label: 'Archived', variant: 'neutral', disabled: true }
 	},
 	layout: 'centered'
 } satisfies ContractStory<RecipeBadge>;

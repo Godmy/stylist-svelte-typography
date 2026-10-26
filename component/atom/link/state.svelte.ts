@@ -2,16 +2,19 @@ import type { HTMLAttributes } from 'svelte/elements';
 import type { RecipeLink } from '$stylist/typography/interface/recipe/link';
 import type { TokenFontSize } from '$stylist/design-token/type/alias/font-size';
 import type { TokenColorTone } from '$stylist/design-token/type/alias/color-tone';
+import { resolveTypographyInlineStyle } from '$stylist/typography/function/script/inline-style';
 
 export function createLinkState(getProps: () => RecipeLink & HTMLAttributes<HTMLAnchorElement>) {
 	const props = $derived(getProps());
 	const tone = $derived(props.tone ?? 'primary');
-	const fontSize = $derived(props.fontSize ?? '4');
+	// Without fontSize the link keeps the size of the text around it.
+	const fontSize = $derived(props.fontSize);
 	const disabled = $derived(props.disabled ?? false);
 	const underline = $derived(props.underline ?? true);
 	const href = $derived(disabled ? undefined : props.href);
 	const target = $derived(props.target);
 	const text = $derived(props.text);
+	const style = $derived(resolveTypographyInlineStyle(props.style, { fontSize }));
 	const classes = $derived(
 		['c-typography-link', typeof props.class === 'string' ? props.class : undefined]
 			.filter(Boolean)
@@ -26,7 +29,10 @@ export function createLinkState(getProps: () => RecipeLink & HTMLAttributes<HTML
 			return tone as TokenColorTone;
 		},
 		get fontSize() {
-			return fontSize as TokenFontSize;
+			return fontSize as TokenFontSize | undefined;
+		},
+		get style() {
+			return style;
 		},
 		get underline() {
 			return underline;
